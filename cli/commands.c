@@ -257,6 +257,10 @@ int verify(int argc, char **argv) {
   if (expected_tag_len > sizeof tag) {
     expected_tag_len = sizeof tag;
   }
+  if (expected_tag_len < sizeof tag) {
+    fputs("MAC tag verification failed\n", stderr);
+    goto out;
+  }
 
   // compare the tag
   if (CRYPTO_memcmp(expected_tag, tag, expected_tag_len) != 0) {
